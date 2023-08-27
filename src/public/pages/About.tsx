@@ -1,8 +1,8 @@
+import { PublicLayout } from '../layout'
 
 export const About = () => {
   return (
-    <div>
-      <h1> About </h1>
-    </div>
+    <PublicLayout title="Acerca de Nosotros">
+    </PublicLayout>
   )
 }
