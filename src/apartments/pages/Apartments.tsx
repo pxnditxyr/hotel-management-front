@@ -1,8 +1,22 @@
+import { ApartmentsLayout } from '../layout/ApartmentsLayout'
 
 export const Apartments = () => {
   return (
-    <div>
-      <h1> Apartments </h1>
-    </div>
+    <ApartmentsLayout title="Departamentos">
+      <div className="flex flex-col gap-4">
+        <p className="text-center text-2xl font-bold">
+          ver Departamentos
+        </p>
+        <p className="text-center text-2xl font-bold">
+          reservar Departamento
+        </p>
+        <p className="text-center text-2xl font-bold">
+          ver reservas
+        </p>
+        <p className="text-center text-2xl font-bold">
+          comprar Departamento
+        </p>
+      </div>
+    </ApartmentsLayout>
   )
 }

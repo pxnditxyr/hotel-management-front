@@ -29,3 +29,7 @@
 .public-layout__content {
   @apply flex flex-col items-center justify-center w-full flex-1 px-20 text-center;
 }
+
+.apartments-layout__container {
+  @apply flex flex-col items-center justify-center w-full;
+}
