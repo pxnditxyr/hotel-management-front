@@ -1,10 +1,30 @@
 import { Link } from 'react-router-dom'
 import { AuthLayout } from '../layout/AuthLayout'
+import { FormEvent } from 'react'
+
+import Swal from 'sweetalert2'
 
 
 const inputClassName = "w-96 px-4 py-2 rounded-xl border-2 border-gray-300 bg-transparent focus:outline-none focus:border-sky-500 text-white font-bold z-10"
 
 export const Signup = () => {
+
+  const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
+    event.preventDefault()
+    const { userName, email, password, passwordConfirm } = event.target as HTMLFormElement
+    if ( password.value !== passwordConfirm.value ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Las contraseñas no coinciden',
+        text: 'Por favor verifica que las contraseñas coincidan',
+      })
+      return
+    }
+    console.log( userName.value, email.value, password.value )
+  }
+
+
+
   return (
     <AuthLayout title="Registrate">
       <div className="flex items-center justify-center rounded-lg mt-4 z-10 py-4 px-8 h-full gap-12">
@@ -19,29 +39,31 @@ export const Signup = () => {
           ></div>
         </div>
         <div className="flex flex-col items-center justify-center p-4">
-          <form className="flex flex-col items-center justify-center p-4 gap-8">
+          <form
+            className="flex flex-col items-center justify-center p-4 gap-8"
+            onSubmit={ onSubmit }
+          >
             <input
               type="text"
+              name="userName"
               placeholder="Nombre"
               className={ inputClassName }
             />
             <input
-              type="usuario"
-              placeholder="Contraseña"
-              className={ inputClassName }
-            />
-            <input
               type="text"
+              name="email"
               placeholder="Correo electrónico"
               className={ inputClassName }
             />
             <input
               type="password"
+              name="password"
               placeholder="Contraseña"
               className={ inputClassName }
             />
             <input
               type="password"
+              name="passwordConfirm"
               placeholder="Confirmar contraseña"
               className={ inputClassName }
             />
