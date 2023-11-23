@@ -1,25 +1,31 @@
-import {
-  BrowserRouter, Route, Routes,
-} from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { PublicRoutes } from '../public'
+import { useAuthStore } from '../stores'
+import { Spinner } from '@nextui-org/react'
+import { PrivateRoutes } from '../modules/private'
 
 export const AppRouter = () => {
 
-  let status = 'not-authenticated'
+  const authStatus = useAuthStore( state => state.status )
+  const checkAuthStatus = useAuthStore( state => state.checkAuthStatus )
+
+  if ( authStatus === 'pending' ) {
+    checkAuthStatus()
+    return ( <Spinner label="Loading..." color="warning" /> )
+  }
+  console.log( 'authStatus', authStatus )
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {
-          ( status === 'not-authenticated' )
+    <Routes>
+      {
+        ( authStatus === 'unauthenticated' )
           ? (
             <Route path="/*" element={ <PublicRoutes /> } />
           )
           : (
-            <Route path="/*" element={ <h1> Coming soon </h1> } />
+            <Route path="/*" element={ <PrivateRoutes /> } />
           )
-        }
-      </Routes>
-    </BrowserRouter>
+      }
+    </Routes>
   )
 }

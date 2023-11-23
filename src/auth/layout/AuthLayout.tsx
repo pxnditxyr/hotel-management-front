@@ -1,4 +1,4 @@
-import { Navbar } from "../../ui"
+import { Navbar } from '../../ui'
 
 interface IProps {
   title: string
@@ -14,6 +14,7 @@ const authLinks = [
 ]
 
 export const AuthLayout = ( { title, children } : IProps ) => {
+
   return (
     <div
       className="flex flex-col items-center min-h-screen h-full"

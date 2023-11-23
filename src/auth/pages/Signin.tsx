@@ -1,17 +1,28 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '../layout/AuthLayout'
 import { FormEvent } from 'react'
+import { useAuthStore } from '../../stores'
 
 
 const inputClassName = "w-96 px-4 py-2 rounded-xl border-2 border-gray-300 bg-transparent focus:outline-none focus:border-sky-500 text-white font-bold z-10"
 
 export const Signin = () => {
 
-  const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
+  const signin = useAuthStore( state => state.signin )
+  const navigate = useNavigate()
+  
+
+  const onSubmit = async ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
     const { email, password } = event.target as HTMLFormElement
-    console.log( email.value, password.value )
-    console.log( event )
+    console.log( 'email', email.value )
+
+    try {
+      await signin( email.value, password.value )
+      navigate( '/admin/dashboard' );
+    } catch ( error ) {
+      console.log( 'no se pudo autenticar' );
+    }
   }
 
   return (
