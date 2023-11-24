@@ -3,27 +3,50 @@ import { CrudTable, PlusButton } from '../../../../components'
 import { useCategoriesStore } from '../../../../stores'
 import { useNavigate } from 'react-router-dom'
 import { LoadingPage } from '../../../../ui/pages'
+import Swal from 'sweetalert2'
 
 const columns = [
   { name: 'Nombre de Categoria', uid: 'name' },
   { name: 'Estado', uid: 'isActive' },
   { name: 'Fecha de creacion', uid: 'createdAt' },
   { name: 'Fecha de actualizacion', uid: 'updatedAt' },
+  { name: 'Acciones', uid: 'actions' }
 ]
 
 export const CategoriesPage = () => {
   const findAll = useCategoriesStore( state => state.findAll )
   const categories = useCategoriesStore( state => state.categories )
   const isLoading = useCategoriesStore( state => state.isLoading )
+  const toggleStatus = useCategoriesStore( state => state.toggleStatus )
+  const error = useCategoriesStore( state => state.error )
+  const clearError = useCategoriesStore( state => state.clearError )
   const navigate = useNavigate()
 
   useEffect( () => {
     findAll()
   }, [] )
 
+  useEffect( () => {
+    console.log( error )
+    if ( error ) {
+      Swal.fire({
+        title: 'Error',
+        text: error,
+        icon: 'error'
+      })
+    }
+    clearError()
+  }, [ error, clearError ] )
+
   if ( isLoading ) return ( <LoadingPage /> )
 
   const onAddNewClick = () => navigate( '/admin/categories/create' )
+  const onEditClick = ( id: string ) => navigate( `/admin/categories/${ id }/edit` )
+  const onViewClick = ( id: string ) => navigate( `/admin/categories/${ id }` )
+
+  const onToggleStatusClick = ( id: string ) => {
+    toggleStatus( id )
+  }
 
   return (
     <div>
@@ -35,7 +58,13 @@ export const CategoriesPage = () => {
           <PlusButton onClick={ onAddNewClick } />
         </div>
         <div className="flex justify-center items-center">
-          <CrudTable columns={ columns } data={ categories } />
+          <CrudTable
+            columns={ columns }
+            data={ categories }
+            onClickEdit={ onEditClick }
+            onClickView={ onViewClick }
+            onToggleStatus={ onToggleStatusClick }
+          />
         </div>
       </div>
     </div>

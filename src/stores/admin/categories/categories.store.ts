@@ -13,6 +13,7 @@ export interface ICategoriesState {
   create: ( category: ICategory ) => Promise<void>
   update: ( id: string, category: ICategory ) => Promise<void>
   toggleStatus: ( id: string ) => Promise<void>
+  clearError: () => void
 }
 
 const categoriesStore : StateCreator<ICategoriesState> = ( set, get ) => ({
@@ -58,7 +59,9 @@ const categoriesStore : StateCreator<ICategoriesState> = ( set, get ) => ({
     if ( 'error' in updated ) set({ error: updated.error })
     else set({ categories: get().categories.map( c => c.id === id ? updated : c ) })
     set({ isLoading: false })
-  }
+  },
+
+  clearError: () => set({ error: undefined })
 })
 
 export const useCategoriesStore = create<ICategoriesState>( categoriesStore )
