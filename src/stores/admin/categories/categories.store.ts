@@ -1,6 +1,6 @@
 import { StateCreator, create } from 'zustand'
 import { ICategory } from '../../../interfaces'
-import { CategoriesService } from '../../../services'
+import { CategoriesService, ICreateCategory } from '../../../services'
 
 export interface ICategoriesState {
   categories: ICategory[]
@@ -10,8 +10,8 @@ export interface ICategoriesState {
 
   findAll: () => Promise<void>
   findOne: ( id: string ) => Promise<void>
-  create: ( category: ICategory ) => Promise<void>
-  update: ( id: string, category: ICategory ) => Promise<void>
+  create: ( category: ICreateCategory ) => Promise<void>
+  update: ( id: string, category: ICreateCategory ) => Promise<void>
   toggleStatus: ( id: string ) => Promise<void>
   clearError: () => void
 }
@@ -37,7 +37,7 @@ const categoriesStore : StateCreator<ICategoriesState> = ( set, get ) => ({
     else set({ category })
     set({ isLoading: false })
   },
-  create: async ( category: ICategory ) => {
+  create: async ( category: ICreateCategory ) => {
     set({ isLoading: true })
     const created = await CategoriesService.create( category )
     if ( 'error' in created ) set({ error: created.error })
@@ -45,7 +45,7 @@ const categoriesStore : StateCreator<ICategoriesState> = ( set, get ) => ({
     set({ isLoading: false })
   },
 
-  update: async ( id: string, category: ICategory ) => {
+  update: async ( id: string, category: ICreateCategory ) => {
     set({ isLoading: true })
     const updated = await CategoriesService.update( id, category )
     if ( 'error' in updated ) set({ error: updated.error })

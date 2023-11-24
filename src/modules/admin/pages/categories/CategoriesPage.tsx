@@ -41,8 +41,8 @@ export const CategoriesPage = () => {
   if ( isLoading ) return ( <LoadingPage /> )
 
   const onAddNewClick = () => navigate( '/admin/categories/create' )
-  const onEditClick = ( id: string ) => navigate( `/admin/categories/${ id }/edit` )
-  const onViewClick = ( id: string ) => navigate( `/admin/categories/${ id }` )
+  const onEditClick = ( id: string ) => navigate( `/admin/categories/edit/${ id }` )
+  const onViewClick = ( id: string ) => navigate( `/admin/categories/view/${ id }` )
 
   const onToggleStatusClick = ( id: string ) => {
     toggleStatus( id )
@@ -57,13 +57,14 @@ export const CategoriesPage = () => {
         <div className="flex justify-end">
           <PlusButton onClick={ onAddNewClick } />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center px-8">
           <CrudTable
             columns={ columns }
             data={ categories }
             onClickEdit={ onEditClick }
             onClickView={ onViewClick }
             onToggleStatus={ onToggleStatusClick }
+            showViewButton={ false }
           />
         </div>
       </div>

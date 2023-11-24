@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { CategoriesPage, CreateCategory, Dashboard } from '../pages'
 import { AdminNavbar } from '../../../components'
 import { useAuthStore } from '../../../stores'
+import { UpdateCategory } from '../pages/categories/UpdateCategory'
+import { ViewCategory } from '../pages/categories/ViewCategory'
 
 
 export const AdminRoutes = () => {
@@ -19,6 +21,9 @@ export const AdminRoutes = () => {
             <Routes>
               <Route path="/" element={ <CategoriesPage /> } />
               <Route path="create" element={ <CreateCategory /> } />
+              <Route path="edit/:id" element={ <UpdateCategory /> } />
+              <Route path="view/:id" element={ <ViewCategory /> } />
+              <Route path="*" element={ <Navigate to="/admin/dashboard" /> } />
             </Routes>
           } />
 

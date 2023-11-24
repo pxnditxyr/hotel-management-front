@@ -2,7 +2,7 @@ import { hotelApi } from '../../api'
 import { ICategory, IServiceError } from '../../interfaces'
 import { handlerServicesErrors } from '../../utils'
 
-interface ICreateCategory {
+export interface ICreateCategory {
   name: string
 }
 

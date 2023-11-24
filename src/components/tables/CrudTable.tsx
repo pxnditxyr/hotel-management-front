@@ -37,9 +37,17 @@ interface ICrudTableProps {
   onClickView?: ( id : string ) => void;
   onClickEdit?: ( id : string ) => void;
   onToggleStatus?: ( id : string ) => void;
+  showViewButton?: boolean;
 }
 
-export const CrudTable = ( { columns, data, onClickEdit, onClickView, onToggleStatus } : ICrudTableProps ) => {
+const serializeDate = ( date: string ) => {
+  const dateTime = new Date( date );
+  const dateString = dateTime.toLocaleDateString( 'es-AR' );
+  const timeString = dateTime.toLocaleTimeString( 'es-AR' );
+  return `${ dateString } ${ timeString }`;
+}
+
+export const CrudTable = ( { columns, data, onClickEdit, onClickView, onToggleStatus, showViewButton = true } : ICrudTableProps ) => {
   type TData = typeof data[ 0 ];
   const renderCell = React.useCallback( ( data: TData, columnKey: React.Key ) => {
     const cellValue = data[ columnKey as keyof TData ];
@@ -54,14 +62,18 @@ export const CrudTable = ( { columns, data, onClickEdit, onClickView, onToggleSt
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip content="Ver detalles">
-              <span
-                className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                onClick={ () => onClickView && onClickView( data.id ) }
-              >
-                <EyeIcon />
-              </span>
-            </Tooltip>
+            {
+              ( showViewButton ) && (
+                <Tooltip content="Ver detalles">
+                  <span
+                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                    onClick={ () => onClickView && onClickView( data.id ) }
+                  >
+                    <EyeIcon />
+                  </span>
+                </Tooltip>
+              )
+            }
             <Tooltip content="Editar">
               <span
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
@@ -92,6 +104,10 @@ export const CrudTable = ( { columns, data, onClickEdit, onClickView, onToggleSt
             }
           </div>
         );
+      case "createdAt":
+        return serializeDate( cellValue );
+      case "updatedAt":
+        return serializeDate( cellValue );
       default:
         return cellValue;
     }

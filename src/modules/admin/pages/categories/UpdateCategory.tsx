@@ -1,12 +1,24 @@
+import { FormEvent, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Input } from '@nextui-org/react'
 import { useCategoriesStore } from '../../../../stores'
-import { FormEvent, useEffect } from 'react'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
+import { UnexpectedError } from '../../../../ui/pages'
+import { BackButton } from '../../../../ui/buttons/BackButton'
 
-export const CreateCategory = () => {
+export const UpdateCategory = () => {
 
-  const create = useCategoriesStore( state => state.create )
+  const id = useLocation().pathname.split( '/' ).pop() as string
+
+  const update = useCategoriesStore( state => state.update )
+  const categories = useCategoriesStore( state => state.categories )
+  const category = categories.find( category => category.id === id )
+  if ( !category ) return (
+    <UnexpectedError
+      code={ 404 }
+      error="No se encontro la categoria que estas buscando"
+    />
+  )
   const error = useCategoriesStore( state => state.error )
   const clearError = useCategoriesStore( state => state.clearError )
 
@@ -17,10 +29,10 @@ export const CreateCategory = () => {
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
     const { categoryName } = event.target as HTMLFormElement
-    create({ name: categoryName.value })
+    update( id, { name: categoryName.value } )
     if ( !error ) {
       Swal.fire( {
-        title: 'Categoria creada con exito',
+        title: 'Categoria actualizada con exito',
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
@@ -42,15 +54,8 @@ export const CreateCategory = () => {
 
   return (
     <div className="flex flex-col gap-20 w-full h-full p-20 justify-center items-center">
-      <Button
-        color="primary"
-        variant="shadow"
-        onClick={ onGoBack }
-        className="absolute top-24 left-12"
-      >
-        Volver Atras
-      </Button> 
-      <h1 className="text-4xl font-bold text-center" > Crear Nueva Categoria </h1>
+      <BackButton onGoBack={ onGoBack }/>
+      <h1 className="text-4xl font-bold text-center" > Actualizar Categoria </h1>
       <form
         className="flex flex-col gap-8 w-1/2 lg:w-1/4"
         onSubmit={ onSubmit }
@@ -60,6 +65,7 @@ export const CreateCategory = () => {
             type="text" 
             name="categoryName"
             label="Nombre de la Categoria"
+            defaultValue={ category.name }
           />
         </div>
         <Button
