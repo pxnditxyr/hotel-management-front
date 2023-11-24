@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { AuthLayout } from '../layout/AuthLayout'
-import { FormEvent } from 'react'
+import { FormEvent, useEffect } from 'react'
 
 import Swal from 'sweetalert2'
 import { useAuthStore } from '../../stores'
@@ -10,10 +10,15 @@ const inputClassName = "w-96 px-4 py-2 rounded-xl border-2 border-gray-300 bg-tr
 
 export const Signup = () => {
 
-  const signup = useAuthStore( state => state.signin )
+  const signup = useAuthStore( state => state.signup )
+  const error = useAuthStore( state => state.error )
+
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { userName, email, password, passwordConfirm } = event.target as HTMLFormElement
+    const {
+      userName, email, username, dni,
+      lastname, phone, password, passwordConfirm
+    } = event.target as HTMLFormElement
     if ( password.value !== passwordConfirm.value ) {
       Swal.fire({
         icon: 'error',
@@ -21,10 +26,26 @@ export const Signup = () => {
         text: 'Por favor verifica que las contraseñas coincidan',
       })
     }
-    signup( mail, password )
+    signup({ 
+      name: userName.value,
+      email: email.value,
+      username: username.value,
+      dni: dni.value,
+      lastname: lastname.value,
+      phone: phone.value,
+      password: password.value,
+    })
   }
 
-
+  useEffect( () => {
+    if ( error ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al registrarse',
+        text: error,
+      })
+    }
+  }, [ error ])
 
   return (
     <AuthLayout title="Registrate">
@@ -49,24 +70,56 @@ export const Signup = () => {
               name="userName"
               placeholder="Nombre"
               className={ inputClassName }
+              required
+            />
+            <input
+              type="text"
+              name="lastname"
+              placeholder="Apellido"
+              className={ inputClassName }
+              required
+            />
+            <input
+              type="text"
+              name="dni"
+              placeholder="DNI"
+              className={ inputClassName }
+              required
+            />
+            <input
+              type="text"
+              name="phone"
+              placeholder="Teléfono"
+              className={ inputClassName }
+              required
+            />
+            <input
+              type="text"
+              name="username"
+              placeholder="Nombre de usuario"
+              className={ inputClassName }
+              required
             />
             <input
               type="text"
               name="email"
               placeholder="Correo electrónico"
               className={ inputClassName }
+              required
             />
             <input
               type="password"
               name="password"
               placeholder="Contraseña"
               className={ inputClassName }
+              required
             />
             <input
               type="password"
               name="passwordConfirm"
               placeholder="Confirmar contraseña"
               className={ inputClassName }
+              required
             />
             <button className="px-4 py-2 rounded-xl bg-sky-500 text-white font-bold z-10" > Registrate </button>
             

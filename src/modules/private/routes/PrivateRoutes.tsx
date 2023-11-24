@@ -6,6 +6,7 @@ import { AdminRoutes } from '../../admin'
 export const PrivateRoutes = () => {
 
   const user = useAuthStore( state => state.user )
+  const signout = useAuthStore( state => state.signout )
 
   return (
     <div>
@@ -18,7 +19,14 @@ export const PrivateRoutes = () => {
             </>
           ) : (
             <>
-              <Route path="/user/*" element={ <h1> errorr <pre> { JSON.stringify( user, null, 2)} </pre> </h1> } />
+              <Route path="/user/*" element={ 
+                  <>
+                    <h1>USER</h1>
+                    <button>
+                      <span onClick={ () => signout() }>Signout</span>
+                    </button>
+                  </>
+                } />
               <Route path="*" element={ <Navigate to="/user/*" /> } />
             </>
           )

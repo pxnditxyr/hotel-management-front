@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '../layout/AuthLayout'
-import { FormEvent } from 'react'
+import { FormEvent, useEffect } from 'react'
 import { useAuthStore } from '../../stores'
+import Swal from 'sweetalert2'
 
 
 const inputClassName = "w-96 px-4 py-2 rounded-xl border-2 border-gray-300 bg-transparent focus:outline-none focus:border-sky-500 text-white font-bold z-10"
@@ -9,21 +10,28 @@ const inputClassName = "w-96 px-4 py-2 rounded-xl border-2 border-gray-300 bg-tr
 export const Signin = () => {
 
   const signin = useAuthStore( state => state.signin )
+  const error = useAuthStore( state => state.error )
+  const clearError = useAuthStore( state => state.clearError )
   const navigate = useNavigate()
   
 
   const onSubmit = async ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
     const { email, password } = event.target as HTMLFormElement
-    console.log( 'email', email.value )
-
-    try {
-      await signin( email.value, password.value )
-      navigate( '/admin/dashboard' );
-    } catch ( error ) {
-      console.log( 'no se pudo autenticar' );
-    }
+    await signin( email.value, password.value )
+    if ( !error ) navigate( '/admin/dashboard' );
   }
+
+  useEffect( () => {
+    if ( error ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al iniciar sesión',
+        text: error,
+      })
+      clearError()
+    }
+  }, [ error, clearError ] )
 
   return (
     <AuthLayout title="Iniciar sesión">
@@ -48,12 +56,14 @@ export const Signin = () => {
               name="email"
               placeholder="Correo electrónico"
               className={ inputClassName }
+              required
             />
             <input
               type="password"
               name="password"
               placeholder="Contraseña"
               className={ inputClassName }
+              required
             />
             <button className="px-4 py-2 rounded-xl bg-sky-500 text-white font-bold z-10" > Iniciar sesión </button>
             
