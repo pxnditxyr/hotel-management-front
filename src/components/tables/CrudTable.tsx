@@ -1,9 +1,19 @@
 import React from 'react';
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, ChipProps } from '@nextui-org/react';
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Chip,
+  Tooltip,
+  ChipProps,
+  Checkbox
+} from '@nextui-org/react';
 import { EditIcon } from './EditIcon';
 import { DeleteIcon } from './DeleteIcon'
 import { EyeIcon } from './EyeIcon'
-import { columns, users } from './data'
 
 const statusColorMap: Record<string, ChipProps['color']>  = {
   active: 'success',
@@ -11,77 +21,85 @@ const statusColorMap: Record<string, ChipProps['color']>  = {
   vacation: 'warning',
 };
 
-type User = typeof users[0];
 
-export const CrudTable = () => {
+interface IColumn {
+  uid: string;
+  name: string;
+}
 
-  const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof User];
+interface IData {
+  [ key: string ]: any;
+}
+
+interface ICrudTableProps {
+  columns: IColumn[];
+  data: IData[];
+}
+
+export const CrudTable = ( { columns, data } : ICrudTableProps ) => {
+  type TData = typeof data[ 0 ];
+  const renderCell = React.useCallback( ( data: TData, columnKey: React.Key ) => {
+    const cellValue = data[ columnKey as keyof TData ];
 
     switch (columnKey) {
-      case "name":
+      case "isActive":
         return (
-          <User
-            avatarProps={{radius: "lg", src: user.avatar}}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.team}</p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
-            {cellValue}
+          <Chip className="capitalize" color={ statusColorMap[ ( data.isActive ) ? 'active' : 'paused' ] } size="sm" variant="flat">
+            { ( cellValue ) ? 'Activo' : 'Inactivo' }
           </Chip>
         );
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip content="Details">
+            <Tooltip content="Ver detalles">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EyeIcon />
               </span>
             </Tooltip>
-            <Tooltip content="Edit user">
+            <Tooltip content="Editar">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <DeleteIcon />
-              </span>
-            </Tooltip>
+            {
+              ( data.isActive ) ? (
+                <Tooltip color="danger" content="Desactivar">
+                  <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                    <DeleteIcon />
+                  </span>
+                </Tooltip>
+              ) : (
+                <Tooltip color={ statusColorMap[ data.isActive ? 'active' : 'paused' ] } content="Activar">
+                  <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                    <Checkbox color="success"
+                        onChange={ ( e ) => console.log( e ) }
+                      ></Checkbox>
+                  </span>
+                </Tooltip>
+              )
+            }
           </div>
         );
       default:
         return cellValue;
     }
-  }, []);
+  }, [] );
 
   return (
   <Table aria-label="Example table with custom cells">
       <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
-            {column.name}
+        { ( column ) => (
+          <TableColumn key={ column.uid } align={ column.uid === "actions" ? "center" : "start" } className="px-8 py-4">
+            { column.name }
           </TableColumn>
-        )}
+        ) }
       </TableHeader>
-      <TableBody items={users}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+      <TableBody items={ data }>
+        { ( item ) => (
+          <TableRow key={ item.id } className="p-8">
+            { ( columnKey ) => <TableCell className="px-8 py-8">{ renderCell( item, columnKey ) }</TableCell> }
           </TableRow>
-        )}
+        ) }
       </TableBody>
     </Table>
   );

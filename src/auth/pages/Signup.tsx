@@ -3,12 +3,14 @@ import { AuthLayout } from '../layout/AuthLayout'
 import { FormEvent } from 'react'
 
 import Swal from 'sweetalert2'
+import { useAuthStore } from '../../stores'
 
 
 const inputClassName = "w-96 px-4 py-2 rounded-xl border-2 border-gray-300 bg-transparent focus:outline-none focus:border-sky-500 text-white font-bold z-10"
 
 export const Signup = () => {
 
+  const signup = useAuthStore( state => state.signin )
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
     const { userName, email, password, passwordConfirm } = event.target as HTMLFormElement
@@ -18,9 +20,8 @@ export const Signup = () => {
         title: 'Las contraseñas no coinciden',
         text: 'Por favor verifica que las contraseñas coincidan',
       })
-      return
     }
-    console.log( userName.value, email.value, password.value )
+    signup( mail, password )
   }
 
 

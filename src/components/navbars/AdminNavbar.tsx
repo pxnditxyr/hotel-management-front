@@ -1,6 +1,10 @@
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react"
 
-export const AdminNavbar = () => {
+interface IAdminNavbarProps {
+  onSignOutClick: () => void
+}
+
+export const AdminNavbar = ({ onSignOutClick }: IAdminNavbarProps) => {
   return (
     <Navbar>
       <NavbarBrand>
@@ -54,6 +58,11 @@ export const AdminNavbar = () => {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
+      </NavbarContent>
+      <NavbarContent>
+        <button
+          onClick={ onSignOutClick }
+        ><h4> Cerrar Sesion </h4> </button>
       </NavbarContent>
     </Navbar>
   )

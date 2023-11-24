@@ -1,12 +1,12 @@
 import { StateCreator, create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { AuthService } from '../../services'
-import { IUser, TAuthStatus } from '../../interfaces'
+import { IAuthUser, TAuthStatus } from '../../interfaces'
 
 export interface IAuthState {
   status: TAuthStatus
   token?: string
-  user?: IUser
+  user?: IAuthUser
 
   signin: ( userTerm: string, password: string ) => Promise<void>
   checkAuthStatus: () => Promise<void>

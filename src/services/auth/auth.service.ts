@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios'
-import { hotelApi } from '../api'
-import { IUser } from '../interfaces'
+import { hotelApi } from '../../api'
+import { IAuthUser } from '../../interfaces'
 
 export interface ISigninResponse {
   token: string
-  user: IUser
+  user: IAuthUser
 }
 
 export class AuthService {
