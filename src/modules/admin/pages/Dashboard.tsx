@@ -53,6 +53,7 @@ export const Dashboard = () => {
     </div>
     <div className="chart">
       <h3> Ventas totales </h3>
+      <div className="hotel__image"></div>
     </div>
     <div className="activity-feed">
       <h3> Actividad Reciente </h3>

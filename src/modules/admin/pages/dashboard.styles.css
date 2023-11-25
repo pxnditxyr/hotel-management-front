@@ -283,3 +283,13 @@
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
+
+.hotel__image {
+  background-image: url(https://i.ibb.co/Hq006Vx/NAIROBI-removebg-preview.png);
+  background-size: fit;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
