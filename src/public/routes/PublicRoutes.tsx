@@ -2,8 +2,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { About, Contact, Home } from '../pages'
 import { ReservationsRoutes } from '../../reservations'
 import { ApartmentsRoutes } from '../../apartments'
-import { NotFound } from '../../ui'
 import { AuthRoutes } from '../../auth'
+import { UnexpectedError } from '../../ui/pages'
 
 export const PublicRoutes = () => {
 
@@ -18,7 +18,7 @@ export const PublicRoutes = () => {
         <Route path="auth/*" element={ <AuthRoutes /> } />
         <Route path="user/*" element={ <Navigate to="/auth/signin" /> } />
         <Route path="admin/*" element={ <Navigate to="/auth/signin" /> } />
-        <Route path="*" element={ <NotFound /> } />
+        <Route path="*" element={ <UnexpectedError error="Lo sentimos, no encontramos lo que buscas" /> } />
       </Routes>
     </div>
   )

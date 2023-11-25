@@ -12,6 +12,7 @@ export const Signup = () => {
 
   const signup = useAuthStore( state => state.signup )
   const error = useAuthStore( state => state.error )
+  const clearError = useAuthStore( state => state.clearError )
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
@@ -45,6 +46,7 @@ export const Signup = () => {
         text: error,
       })
     }
+    clearError()
   }, [ error ])
 
   return (
