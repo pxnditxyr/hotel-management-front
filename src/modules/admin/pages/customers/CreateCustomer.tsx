@@ -1,14 +1,14 @@
 import { Button, Input } from '@nextui-org/react'
-import { useCategoriesStore } from '../../../../stores'
+import { useCustomersStore } from '../../../../stores'
 import { FormEvent, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 export const CreateCustomer = () => {
 
-  const create = useCategoriesStore( state => state.create )
-  const error = useCategoriesStore( state => state.error )
-  const clearError = useCategoriesStore( state => state.clearError )
+  const create = useCustomersStore( state => state.create )
+  const error = useCustomersStore( state => state.error )
+  const clearError = useCustomersStore( state => state.clearError )
 
   const navigate = useNavigate()
 
@@ -16,15 +16,20 @@ export const CreateCustomer = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { categoryName } = event.target as HTMLFormElement
-    create({ name: categoryName.value })
+    const { customerName, lastname, dni, phone } = event.target as HTMLFormElement
+    create({
+      dni: dni.value,
+      name: customerName.value,
+      lastname: lastname.value,
+      phone: phone.value
+    })
     if ( !error ) {
       Swal.fire( {
-        title: 'Categoria creada con exito',
+        title: 'Cliente creada con exito',
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
-      categoryName.value = ''
+      customerName.value = ''
     }
   }
 
@@ -58,8 +63,29 @@ export const CreateCustomer = () => {
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
           <Input
             type="text" 
-            name="categoryName"
-            label="Nombre de la Categoria"
+            name="customerName"
+            label="Nombre de la Cliente"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text"
+            name="lastname"
+            label="Apellido"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="dni"
+            label="Cedula de Identidad"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="phone"
+            label="Telefono"
           />
         </div>
         <Button

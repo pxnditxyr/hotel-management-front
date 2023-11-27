@@ -54,7 +54,7 @@ export interface ICustomer {
   id: string
   dni: string
   name: string
-  lastName: string
+  lastname: string
   phone: string
   userId: string
   isActive: boolean
