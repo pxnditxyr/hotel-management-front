@@ -12,7 +12,7 @@ export const PlusButton = ( { onClick } : PlusButtonProps ) => {
       endContent={ <PlusIcon /> }
       onClick={ onClick }
     >
-      Add New
+      Agregar nuevo
     </Button>
   )
 }
