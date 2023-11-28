@@ -3,9 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuthStore } from '../../../stores'
 import { AdminRoutes } from '../../admin'
 import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
-import { ReservationsRoutes } from '../../../reservations'
 import { LoadingPage } from '../../../ui/pages'
-import { ApartmentsRoutes } from '../../../apartments'
 import { Reservations } from '../../../reservations/pages'
 import { Apartments } from '../../../apartments/pages'
 import { ReservationView } from '../../../reservations/pages/ReservationView'
@@ -47,12 +45,12 @@ export const PrivateRoutes = () => {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/users/apartments" color="foreground">
+          <Link href="/user/apartments" color="foreground">
             Departamentos
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="/users/reservations" aria-current="page">
+          <Link href="/user/reservations" aria-current="page">
             Reservaciones
           </Link>
         </NavbarItem>

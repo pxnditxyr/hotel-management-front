@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardHeader, DropdownItem, DropdownMenu, Image, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
+import { Avatar, Button, Card, CardBody, CardHeader, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 import { useAuthStore, useProductsStore } from '../../stores'
 import { LoadingPage } from '../../ui/pages'
 import { useEffect } from 'react'
@@ -17,6 +17,8 @@ export const Apartments = () => {
 
   return (
     <>
+      {
+        ( status === 'unauthenticated' ) ? (
     <Navbar>
       <NavbarBrand>
         <p className="font-bold text-inherit"> Torre Nairobi </p>
@@ -40,8 +42,6 @@ export const Apartments = () => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          {
-            ( status === 'unauthenticated' ) ? (
               <Button
                   as={ Link }
                   color="primary"
@@ -49,33 +49,78 @@ export const Apartments = () => {
                   variant="flat">
                 Iniciar sesión
               </Button>
-            ) : (
-                  <>
-                    <DropdownMenu aria-label="Profile Actions" variant="flat">
-                      <DropdownItem key="profile" className="h-14 gap-2">
-                        <p className="font-semibold"> Bienvenido { user?.name } </p>
-                        <p className="font-semibold"> { user?.email } </p>
-                      </DropdownItem>
-                      <DropdownItem key="configurations">Configurations</DropdownItem>
-                      <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-                      <DropdownItem key="logout" color="danger" onClick={ signout }>
-                        Cerrar sesión
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </>
-            )
-          }
         </NavbarItem>
       </NavbarContent>
     </Navbar>
+    ) : (
+    <Navbar>
+      <NavbarBrand>
+        <p className="font-bold text-inherit"> Torre Nairobi </p>
+      </NavbarBrand>
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarItem>
+          <Link color="foreground" href="/users">
+            Inicio
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive>
+          <Link href="/user/apartments" aria-current="page">
+            Departamentos
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link href="/user/reservations" color="foreground">
+            Reservaciones
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent justify="end">
+        <NavbarItem>
+        <NavbarContent as="div" justify="end">
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color="danger"
+              name="Jason Hughes"
+              size="sm"
+              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-semibold"> Bienvenido </p>
+              <p className="font-semibold"> { user?.username } </p>
+            </DropdownItem>
+            <DropdownItem key="team_settings"> Nombre: { user?.name } </DropdownItem>
+            <DropdownItem key="settings"> Rol: Administrador </DropdownItem>
+            <DropdownItem key="analytics"> Correo: { user?.email } </DropdownItem>
+            <DropdownItem key="configurations"> Configuraciones </DropdownItem>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              onClick={ signout }
+            >
+              Cerrar Sesion
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </NavbarContent>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
+    )
+      }
 
     <div className="w-full min-h-screen bg-gray-800 flex flex-col items-center p-4">
       <h1 className="text-center text-4xl font-bold text-white"> Torre Nairobi </h1>
       <h2> Nuestros departamentos son los mejores </h2>
       <h3> Aqui tienes una lista de nuestros productos </h3>
       <div className="flex flex-wrap gap-4">
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-          <div className="bg-white rounded-lg shadow-lg p-4">
+        <div className="w-full flex flex-col items-center gap-4">
+          <div className="bg-white rounded-lg shadow-lg p-4 w-full flex flex-wrap gap-8">
             { products.filter( a => a.isActive ).map( product => (
       <Card className="py-4">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -87,9 +132,8 @@ export const Apartments = () => {
         <CardBody className="overflow-visible py-2">
           <Image
             alt="Card background"
-            className="object-cover rounded-xl"
+            className="object-cover rounded-xl w-full"
             src={ product.imageUrl }
-            width={270}
           />
         </CardBody>
       </Card>
