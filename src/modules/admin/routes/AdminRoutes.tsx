@@ -1,9 +1,20 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { CategoriesPage, CreateCategory, CreateCustomer, CreateDepartment, CreateFloor, CreateOrder, CreateProduct, CreateReport, CreateReservation, CustomersPage, Dashboard, DepartmentPage, FloorsPage, OrdersPage, ProductsPage, ReportsPage, ReservationsPage, UpdateCustomer, UpdateDeparment, UpdateFloor, UpdateOrder, UpdateProduct, UpdateReport, UpdateReservation, ViewCustomer, ViewDepartment, ViewFloor, ViewOrder, ViewProduct, ViewReport, ViewReservation } from '../pages'
+import {
+  CategoriesPage, CreateCategory, CreateCustomer, CreateDepartment,
+  CreateFloor, CreateOrder, CreateProduct, CreateReport, CreateReservation,
+  CustomersPage, Dashboard, DepartmentsPage, FloorsPage, OrdersPage, ProductsPage,
+  ReportsPage, ReservationsPage, UpdateCustomer, UpdateDeparment, UpdateFloor,
+  UpdateOrder, UpdateProduct, UpdateReport, UpdateReservation, ViewCustomer,
+  ViewDepartment, ViewDepartmentCategory, ViewFloor, ViewOrder, ViewProduct,
+  ViewReport, ViewReservation
+} from '../pages'
 import { AdminNavbar } from '../../../components'
 import { useAuthStore } from '../../../stores'
 import { UpdateCategory } from '../pages/categories/UpdateCategory'
 import { ViewCategory } from '../pages/categories/ViewCategory'
+import { DepartmentCategoriesPage } from '../pages/department-categories/DepartmentCategoriesPage'
+import { CreateDepartmentCategory } from '../pages/department-categories/CreateDepartmentCategory'
+import { UpdateDepartmentCategory } from '../pages/department-categories/UpdateDepartmentCategory'
 
 
 // tent className="hidden sm:flex gap-4" justify="center">
@@ -96,13 +107,24 @@ export const AdminRoutes = () => {
 
         <Route path="departments/*" element={
           <Routes>
-            <Route path="/" element={ <DepartmentPage /> } />
+            <Route path="/" element={ <DepartmentsPage /> } />
             <Route path="create" element={ <CreateDepartment /> } />
             <Route path="edit/:id" element={ <UpdateDeparment /> } />
             <Route path="view/:id" element={ <ViewDepartment /> } />
             <Route path="*" element={ <Navigate to="/admin/dashboard" /> } />
           </Routes>
         } />
+
+        <Route path="department-categories/*" element={
+          <Routes>
+            <Route path="/" element={ <DepartmentCategoriesPage /> } />
+            <Route path="create" element={ <CreateDepartmentCategory /> } />
+            <Route path="edit/:id" element={ <UpdateDepartmentCategory /> } />
+            <Route path="view/:id" element={ <ViewDepartmentCategory /> } />
+            <Route path="*" element={ <Navigate to="/admin/dashboard" /> } />
+          </Routes>
+        } />
+
 
         <Route path="floors/*" element={
           <Routes>

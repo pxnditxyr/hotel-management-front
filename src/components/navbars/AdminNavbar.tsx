@@ -1,6 +1,6 @@
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react"
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react"
 import { useAuthStore } from "../../stores"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 interface IAdminNavbarProps {
   onSignOutClick: () => void
@@ -8,8 +8,9 @@ interface IAdminNavbarProps {
 
 export const AdminNavbar = ({ onSignOutClick }: IAdminNavbarProps) => {
 
+  const navigate = useNavigate()
+
   const user = useAuthStore( state => state.user )
-  // get current path to set aria-current="page" in the navbar
   const { pathname } = useLocation()
 
   const isActive = ( path: string ) => {
@@ -24,47 +25,72 @@ export const AdminNavbar = ({ onSignOutClick }: IAdminNavbarProps) => {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem isActive={ isActive('/admin/dashboard') }>
-          <Link href="/admin/dashboard" color={ isActive('/admin/dashboard') ? 'secondary' : 'foreground' }>
+          <Link href="/admin/dashboard" color={ isActive('/admin/dashboard') ? 'danger' : 'foreground' }>
             Panel de Control
           </Link>
         </NavbarItem>
         <NavbarItem isActive={ isActive('/admin/categories') }>
-          <Link href="/admin/categories" color={ isActive('/admin/categories') ? 'secondary' : 'foreground' }>
-            Categorias
-          </Link>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                variant={ `${ ( isActive( '/admin/categories' ) || isActive( '/admin/categories' ) ) ? 'light' : 'light' }` }
+                color={ `${ ( isActive( '/admin/products' ) || isActive( '/admin/categories' ) ) ? 'danger' : 'default' }` }
+              >
+                Productos
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions" color={ `${ ( isActive( '/admin/products' ) || isActive( '/admin/categories' ) ) ? 'danger' : 'default' }` }>
+              <DropdownItem key="products"
+                onClick={ () => navigate( '/admin/products' ) }
+              > Productos </DropdownItem>
+              <DropdownItem
+                key="categories"
+                onClick={ () => navigate( '/admin/categories' ) }
+              > Categoria de Productos </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </NavbarItem>
         <NavbarItem isActive={ isActive('/admin/customers') }>
-          <Link href="/admin/customers" color={ isActive('/admin/customers') ? 'secondary' : 'foreground' }>
+          <Link href="/admin/customers" color={ isActive('/admin/customers') ? 'danger' : 'foreground' }>
             Clientes
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={ isActive('/admin/products') }>
-          <Link href="/admin/products" color={ isActive('/admin/products') ? 'secondary' : 'foreground' }>
-            Productos
-          </Link>
-        </NavbarItem>
         <NavbarItem isActive={ isActive('/admin/departments') }>
-          <Link href="/admin/departments" color={ isActive('/admin/departments') ? 'secondary' : 'foreground' }>
-            Departamentos
-          </Link>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                variant={ `${ ( isActive( '/admin/departments' ) || isActive( '/admin/floors' ) || isActive( '/admin/department-categories' ) ) ? 'light' : 'light' }` }
+                color={ `${ ( isActive( '/admin/departments' ) || isActive( '/admin/floors' ) || isActive( '/admin/department-categories' ) ) ? 'danger' : 'default' }` }
+              >
+                Departamentos
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions" color={ `${ ( isActive( '/admin/departments' ) || isActive( '/admin/floors' ) || isActive( '/admin/department-categories' ) ) ? 'danger' : 'default' }` }>
+              <DropdownItem key="departments"
+                onClick={ () => navigate( '/admin/departments' ) }
+              > Departamentos </DropdownItem>
+              <DropdownItem key="departments"
+                onClick={ () => navigate( '/admin/floors' ) }
+              > Pisos </DropdownItem>
+              <DropdownItem
+                key="departmentCategories"
+                onClick={ () => navigate( '/admin/department-categories' ) }
+              > Categoria de Departamentos </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </NavbarItem>
         <NavbarItem isActive={ isActive('/admin/employees') }>
-          <Link href="/admin/floors" color={ isActive('/admin/floors') ? 'secondary' : 'foreground' }>
-            Pisos
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive={ isActive('/admin/employees') }>
-          <Link href="/admin/reservations" color={ isActive('/admin/reservations') ? 'secondary' : 'foreground' }>
+          <Link href="/admin/reservations" color={ isActive('/admin/reservations') ? 'danger' : 'foreground' }>
             Reservaciones
           </Link>
         </NavbarItem>
         <NavbarItem isActive={ isActive('/admin/employees') }>
-          <Link href="/admin/orders" color={ isActive('/admin/orders') ? 'secondary' : 'foreground' }>
+          <Link href="/admin/orders" color={ isActive('/admin/orders') ? 'danger' : 'foreground' }>
             Ordenes
           </Link>
         </NavbarItem>
         <NavbarItem isActive={ isActive('/admin/employees') }>
-          <Link href="/admin/reports" color={ isActive('/admin/reports') ? 'secondary' : 'foreground' }>
+          <Link href="/admin/reports" color={ isActive('/admin/reports') ? 'danger' : 'foreground' }>
             Reportes
           </Link>
         </NavbarItem>
@@ -76,7 +102,7 @@ export const AdminNavbar = ({ onSignOutClick }: IAdminNavbarProps) => {
               isBordered
               as="button"
               className="transition-transform"
-              color="secondary"
+              color="danger"
               name="Jason Hughes"
               size="sm"
               src="https://i.pravatar.cc/150?u=a042581f4e29026704d"

@@ -1,26 +1,25 @@
 import { FormEvent, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Input } from '@nextui-org/react'
-import { useCategoriesStore } from '../../../../stores'
+import { useFloorsStore } from '../../../../stores'
 import Swal from 'sweetalert2'
-import { UnexpectedError } from '../../../../ui/pages'
-import { BackButton } from '../../../../ui/buttons/BackButton'
+import { UnexpectedError, BackButton } from '../../../../ui'
 
 export const UpdateFloor = () => {
 
   const id = useLocation().pathname.split( '/' ).pop() as string
 
-  const update = useCategoriesStore( state => state.update )
-  const categories = useCategoriesStore( state => state.categories )
-  const category = categories.find( category => category.id === id )
-  if ( !category ) return (
+  const update = useFloorsStore( state => state.update )
+  const floors = useFloorsStore( state => state.floors )
+  const floor = floors.find( floor => floor.id === id )
+  if ( !floor ) return (
     <UnexpectedError
       code={ 404 }
       error="No se encontro la categoria que estas buscando"
     />
   )
-  const error = useCategoriesStore( state => state.error )
-  const clearError = useCategoriesStore( state => state.clearError )
+  const error = useFloorsStore( state => state.error )
+  const clearError = useFloorsStore( state => state.clearError )
 
   const navigate = useNavigate()
 
@@ -28,15 +27,19 @@ export const UpdateFloor = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { categoryName } = event.target as HTMLFormElement
-    update( id, { name: categoryName.value } )
+    const { floorName, number, detail } = event.target as HTMLFormElement
+    update( id, {
+      name: floorName.value,
+      number: Number( number.value ),
+      detail: detail.value
+    } )
     if ( !error ) {
       Swal.fire( {
-        title: 'Categoria actualizada con exito',
+        title: 'Piso actualizado con exito',
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
-      categoryName.value = ''
+      floorName.value = ''
     }
   }
 
@@ -63,16 +66,32 @@ export const UpdateFloor = () => {
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
           <Input
             type="text" 
-            name="categoryName"
-            label="Nombre de la Categoria"
-            defaultValue={ category.name }
+            name="floorName"
+            label="Nombre del Piso"
+            defaultValue={ floor.name }
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="number"
+            label="Numero del Piso"
+            defaultValue={ String( floor.number ) }
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="detail"
+            label="Detalle del Piso"
+            defaultValue={ floor.detail }
           />
         </div>
         <Button
           color="success"
           className="w-full"
           type="submit"
-        > Crear </Button>  
+        > Actualizar Piso </Button>
       </form>
     </div>
   )

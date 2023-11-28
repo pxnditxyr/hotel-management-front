@@ -27,6 +27,11 @@ export * from './departments/DepartmentsPage'
 export * from './departments/CreateDepartment'
 export * from './departments/UpdateDepartment'
 export * from './departments/ViewDepartment'
+
+export * from './department-categories/DepartmentCategoriesPage'
+export * from './department-categories/CreateDepartmentCategory'
+export * from './department-categories/UpdateDepartmentCategory'
+export * from './department-categories/ViewDepartmentCategory'
   
 export * from './reservations/ReservationsPage'
 export * from './reservations/CreateReservation'

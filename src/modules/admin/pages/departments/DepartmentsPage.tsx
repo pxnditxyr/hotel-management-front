@@ -1,25 +1,27 @@
 import { useEffect } from 'react'
 import { CrudTable, PlusButton } from '../../../../components'
-import { useCategoriesStore } from '../../../../stores'
+import { useDepartmentsStore } from '../../../../stores'
 import { useNavigate } from 'react-router-dom'
 import { LoadingPage } from '../../../../ui/pages'
 import Swal from 'sweetalert2'
 
 const columns = [
   { name: 'Nombre de Categoria', uid: 'name' },
+  { name: 'Numero', uid: 'number' },
+  { name: 'Detalle', uid: 'detail' },
   { name: 'Estado', uid: 'isActive' },
   { name: 'Fecha de creacion', uid: 'createdAt' },
   { name: 'Fecha de actualizacion', uid: 'updatedAt' },
   { name: 'Acciones', uid: 'actions' }
 ]
 
-export const DepartmentPage = () => {
-  const findAll = useCategoriesStore( state => state.findAll )
-  const categories = useCategoriesStore( state => state.categories )
-  const isLoading = useCategoriesStore( state => state.isLoading )
-  const toggleStatus = useCategoriesStore( state => state.toggleStatus )
-  const error = useCategoriesStore( state => state.error )
-  const clearError = useCategoriesStore( state => state.clearError )
+export const DepartmentsPage = () => {
+  const findAll = useDepartmentsStore( state => state.findAll )
+  const departments = useDepartmentsStore( state => state.departments )
+  const isLoading = useDepartmentsStore( state => state.isLoading )
+  const toggleStatus = useDepartmentsStore( state => state.toggleStatus )
+  const error = useDepartmentsStore( state => state.error )
+  const clearError = useDepartmentsStore( state => state.clearError )
   const navigate = useNavigate()
 
   useEffect( () => {
@@ -40,9 +42,9 @@ export const DepartmentPage = () => {
 
   if ( isLoading ) return ( <LoadingPage /> )
 
-  const onAddNewClick = () => navigate( '/admin/categories/create' )
-  const onEditClick = ( id: string ) => navigate( `/admin/categories/edit/${ id }` )
-  const onViewClick = ( id: string ) => navigate( `/admin/categories/view/${ id }` )
+  const onAddNewClick = () => navigate( '/admin/departments/create' )
+  const onEditClick = ( id: string ) => navigate( `/admin/departments/edit/${ id }` )
+  const onViewClick = ( id: string ) => navigate( `/admin/departments/view/${ id }` )
 
   const onToggleStatusClick = ( id: string ) => {
     toggleStatus( id )
@@ -60,7 +62,7 @@ export const DepartmentPage = () => {
         <div className="flex justify-center items-center px-8">
           <CrudTable
             columns={ columns }
-            data={ categories }
+            data={ departments }
             onClickEdit={ onEditClick }
             onClickView={ onViewClick }
             onToggleStatus={ onToggleStatusClick }
