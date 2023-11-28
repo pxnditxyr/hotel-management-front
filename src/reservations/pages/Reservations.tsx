@@ -76,7 +76,7 @@ export const Reservations = () => {
         <h1 className="text-4xl font-bold"> Reservations </h1>
         <div className="flex flex-wrap gap-4">
           {
-            departments.map( department => (
+            departments.filter( a => a.isActive ).map( department => (
               <div className="flex flex-col gap-4" key={ department.id } onClick={ () => navigate( `/reservations/${ department.id }` ) }>
                 <div key={ department.id } className="w-64 h-64 bg-gray-500 rounded-lg"
                   style={ {
