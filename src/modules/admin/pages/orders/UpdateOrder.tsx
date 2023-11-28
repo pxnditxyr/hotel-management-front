@@ -1,7 +1,7 @@
 import { FormEvent, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Input } from '@nextui-org/react'
-import { useCategoriesStore } from '../../../../stores'
+import { Button, Input, Select, SelectItem } from '@nextui-org/react'
+import { useCustomersStore, useOrdersStore } from '../../../../stores'
 import Swal from 'sweetalert2'
 import { UnexpectedError } from '../../../../ui/pages'
 import { BackButton } from '../../../../ui/buttons/BackButton'
@@ -10,17 +10,25 @@ export const UpdateOrder = () => {
 
   const id = useLocation().pathname.split( '/' ).pop() as string
 
-  const update = useCategoriesStore( state => state.update )
-  const categories = useCategoriesStore( state => state.categories )
-  const category = categories.find( category => category.id === id )
-  if ( !category ) return (
+  const update = useOrdersStore( state => state.update )
+  const orders = useOrdersStore( state => state.orders )
+  const order = orders.find( order => order.id === id )
+  if ( !order ) return (
     <UnexpectedError
       code={ 404 }
       error="No se encontro la categoria que estas buscando"
     />
   )
-  const error = useCategoriesStore( state => state.error )
-  const clearError = useCategoriesStore( state => state.clearError )
+  const customers = useCustomersStore( state => state.customers )
+  const findAll = useCustomersStore( state => state.findAll )
+
+  useEffect( () => {
+    findAll()
+  }, [] )
+
+
+  const error = useOrdersStore( state => state.error )
+  const clearError = useOrdersStore( state => state.clearError )
 
   const navigate = useNavigate()
 
@@ -28,15 +36,20 @@ export const UpdateOrder = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { categoryName } = event.target as HTMLFormElement
-    update( id, { name: categoryName.value } )
+    const { customerId, paymentMethod, totalProducts, totalAmount, paymentStatus } = event.target as HTMLFormElement
+    update( id, {
+      customerId: customerId.value,
+      method: paymentMethod.value,
+      totalProducts: Number( totalProducts.value ),
+      totalAmount: Number( totalAmount.value ),
+      paymentStatus: paymentStatus.value
+    } )
     if ( !error ) {
       Swal.fire( {
-        title: 'Categoria actualizada con exito',
+        title: 'Orden actualizada con exito',
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
-      categoryName.value = ''
     }
   }
 
@@ -63,16 +76,59 @@ export const UpdateOrder = () => {
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
           <Input
             type="text" 
-            name="categoryName"
-            label="Nombre de la Categoria"
-            defaultValue={ category.name }
+            name="paymentMethod"
+            label="Metodo de Pago"
+            defaultValue={ order.method }
           />
         </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="totalProducts"
+            label="Total de Productos"
+            defaultValue={ String( order.totalProducts ) }
+          />
+        </div>
+
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="totalAmount"
+            label="Total"
+            defaultValue={ String( order.totalAmount ) }
+          />
+        </div>
+
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text"
+            name="paymentStatus"
+            label="Estado de Pago"
+            defaultValue={ order.paymentStatus }
+          />
+        </div>
+
+        <Select
+          key="customerId"
+          name="customerId"
+          color="secondary"
+          label="Cliente"
+          placeholder="Seleccione un cliente"
+          defaultSelectedKeys={[ order.customerId ]}
+          className="w-full"
+        >
+          {
+            customers.map( ( customer ) => (
+            <SelectItem key={ customer.id } value={ customer.id }>
+              { customer.name }
+            </SelectItem>
+          ) )}
+        </Select>
         <Button
           color="success"
           className="w-full"
           type="submit"
-        > Crear </Button>  
+        > Actualizar </Button>  
       </form>
     </div>
   )

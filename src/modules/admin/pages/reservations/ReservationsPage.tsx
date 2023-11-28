@@ -1,12 +1,17 @@
 import { useEffect } from 'react'
 import { CrudTable, PlusButton } from '../../../../components'
-import { useCategoriesStore } from '../../../../stores'
+import { useReservationsStore } from '../../../../stores'
 import { useNavigate } from 'react-router-dom'
 import { LoadingPage } from '../../../../ui/pages'
 import Swal from 'sweetalert2'
 
 const columns = [
-  { name: 'Nombre de Categoria', uid: 'name' },
+  { name: 'Cliente', uid: 'customer' },
+  { name: 'Departamento', uid: 'department' },
+  { name: 'Fecha de inicio', uid: 'startDate' },
+  { name: 'Fecha de fin', uid: 'endDate' },
+  { name: 'Adelanto', uid: 'monetaryAdvance' },
+  { name: 'Estado de pago', uid: 'paymentStatus' },
   { name: 'Estado', uid: 'isActive' },
   { name: 'Fecha de creacion', uid: 'createdAt' },
   { name: 'Fecha de actualizacion', uid: 'updatedAt' },
@@ -14,12 +19,12 @@ const columns = [
 ]
 
 export const ReservationsPage = () => {
-  const findAll = useCategoriesStore( state => state.findAll )
-  const categories = useCategoriesStore( state => state.categories )
-  const isLoading = useCategoriesStore( state => state.isLoading )
-  const toggleStatus = useCategoriesStore( state => state.toggleStatus )
-  const error = useCategoriesStore( state => state.error )
-  const clearError = useCategoriesStore( state => state.clearError )
+  const findAll = useReservationsStore( state => state.findAll )
+  const reservations = useReservationsStore( state => state.reservations )
+  const isLoading = useReservationsStore( state => state.isLoading )
+  const toggleStatus = useReservationsStore( state => state.toggleStatus )
+  const error = useReservationsStore( state => state.error )
+  const clearError = useReservationsStore( state => state.clearError )
   const navigate = useNavigate()
 
   useEffect( () => {
@@ -40,9 +45,9 @@ export const ReservationsPage = () => {
 
   if ( isLoading ) return ( <LoadingPage /> )
 
-  const onAddNewClick = () => navigate( '/admin/categories/create' )
-  const onEditClick = ( id: string ) => navigate( `/admin/categories/edit/${ id }` )
-  const onViewClick = ( id: string ) => navigate( `/admin/categories/view/${ id }` )
+  const onAddNewClick = () => navigate( '/admin/reservations/create' )
+  const onEditClick = ( id: string ) => navigate( `/admin/reservations/edit/${ id }` )
+  const onViewClick = ( id: string ) => navigate( `/admin/reservations/view/${ id }` )
 
   const onToggleStatusClick = ( id: string ) => {
     toggleStatus( id )
@@ -60,7 +65,12 @@ export const ReservationsPage = () => {
         <div className="flex justify-center items-center px-8">
           <CrudTable
             columns={ columns }
-            data={ categories }
+            data={ reservations.map( ( reservation ) => ({
+              ...reservation,
+              customer: reservation.customer?.name,
+              department: reservation.department?.name,
+
+            }) ) }
             onClickEdit={ onEditClick }
             onClickView={ onViewClick }
             onToggleStatus={ onToggleStatusClick }

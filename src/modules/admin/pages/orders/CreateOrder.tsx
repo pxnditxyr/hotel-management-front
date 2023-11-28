@@ -1,14 +1,20 @@
-import { Button, Input } from '@nextui-org/react'
-import { useCategoriesStore } from '../../../../stores'
+import { Button, Input, Select, SelectItem } from '@nextui-org/react'
+import { useOrdersStore, useCustomersStore } from '../../../../stores'
 import { FormEvent, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 export const CreateOrder = () => {
 
-  const create = useCategoriesStore( state => state.create )
-  const error = useCategoriesStore( state => state.error )
-  const clearError = useCategoriesStore( state => state.clearError )
+  const create = useOrdersStore( state => state.create )
+  const error = useOrdersStore( state => state.error )
+  const clearError = useOrdersStore( state => state.clearError )
+  const customers = useCustomersStore( state => state.customers )
+  const findAll = useCustomersStore( state => state.findAll )
+
+  useEffect( () => {
+    findAll()
+  }, [] )
 
   const navigate = useNavigate()
 
@@ -16,15 +22,20 @@ export const CreateOrder = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { categoryName } = event.target as HTMLFormElement
-    create({ name: categoryName.value })
+    const { customerId, paymentMethod, totalProducts, totalAmount, paymentStatus } = event.target as HTMLFormElement
+    create({
+      customerId: customerId.value,
+      method: paymentMethod.value,
+      totalProducts: Number( totalProducts.value ),
+      totalAmount: Number( totalAmount.value ),
+      paymentStatus: paymentStatus.value
+    })
     if ( !error ) {
       Swal.fire( {
-        title: 'Categoria creada con exito',
+        title: 'Orden creada con exito',
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
-      categoryName.value = ''
     }
   }
 
@@ -58,10 +69,51 @@ export const CreateOrder = () => {
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
           <Input
             type="text" 
-            name="categoryName"
-            label="Nombre de la Categoria"
+            name="paymentMethod"
+            label="Metodo de Pago"
           />
         </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="totalProducts"
+            label="Total de Productos"
+          />
+        </div>
+
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="totalAmount"
+            label="Total"
+          />
+        </div>
+
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text"
+            name="paymentStatus"
+            label="Estado de Pago"
+          />
+        </div>
+
+        <Select
+          key="customerId"
+          name="customerId"
+          color="secondary"
+          label="Cliente"
+          placeholder="Seleccione un cliente"
+          defaultSelectedKeys={[]}
+          className="w-full"
+        >
+          {
+            customers.map( ( customer ) => (
+            <SelectItem key={ customer.id } value={ customer.id }>
+              { customer.name }
+            </SelectItem>
+          ) )}
+        </Select>
+
         <Button
           color="success"
           className="w-full"
