@@ -1,14 +1,19 @@
-import { Button, Input } from '@nextui-org/react'
-import { useCategoriesStore } from '../../../../stores'
+import { Button, Input, Select, SelectItem } from '@nextui-org/react'
+import { useCategoriesStore, useProductsStore } from '../../../../stores'
 import { FormEvent, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 export const CreateProduct = () => {
 
-  const create = useCategoriesStore( state => state.create )
-  const error = useCategoriesStore( state => state.error )
-  const clearError = useCategoriesStore( state => state.clearError )
+  const create = useProductsStore( state => state.create )
+  const error = useProductsStore( state => state.error )
+  const clearError = useProductsStore( state => state.clearError )
+  const categories = useCategoriesStore( state => state.categories )
+  const findAllCategories = useCategoriesStore( state => state.findAll )
+  useEffect( () => {
+    findAllCategories()
+  }, [] )
 
   const navigate = useNavigate()
 
@@ -16,15 +21,21 @@ export const CreateProduct = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { categoryName } = event.target as HTMLFormElement
-    create({ name: categoryName.value })
+    const { productName, price, stock, imageUrl, categoryId } = event.target as HTMLFormElement
+    create({
+      name: productName.value,
+      price: Number( price.value ),
+      stock: Number( stock.value ),
+      imageUrl: imageUrl.value,
+      categoryId: categoryId.value
+    })
     if ( !error ) {
       Swal.fire( {
         title: 'Categoria creada con exito',
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
-      categoryName.value = ''
+      productName.value = ''
     }
   }
 
@@ -58,10 +69,48 @@ export const CreateProduct = () => {
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
           <Input
             type="text" 
-            name="categoryName"
-            label="Nombre de la Categoria"
+            name="productName"
+            label="Nombre del Producto"
           />
         </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="price"
+            label="Precio del Producto"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="stock"
+            label="Cantidad en Stock"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="imageUrl"
+            label="Url de la imagen"
+          />
+        </div>
+        <Select
+          key="categoryId"
+          name="categoryId"
+          color="secondary"
+          label="Categoria"
+          placeholder="Seleccione una categoria"
+          defaultSelectedKeys={[]}
+          className="w-full"
+        >
+          {
+            categories.map( ( category ) => (
+            <SelectItem key={ category.id } value={ category.id }>
+              { category.name }
+            </SelectItem>
+          ) )}
+        </Select>
+
         <Button
           color="success"
           className="w-full"

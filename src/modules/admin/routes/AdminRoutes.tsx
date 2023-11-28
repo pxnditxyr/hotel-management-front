@@ -58,7 +58,7 @@ export const AdminRoutes = () => {
   const onSignOut = useAuthStore( state => state.signout)
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full overflow-x-auto bg-background flex flex-col">
       <AdminNavbar onSignOutClick={()=>{ onSignOut() }}/>
       <Routes>
 
