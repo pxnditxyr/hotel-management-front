@@ -107,7 +107,7 @@ export const CreateOrder = () => {
           className="w-full"
         >
           {
-            customers.map( ( customer ) => (
+            customers.filter( customer => customer.isActive ).map( ( customer ) => (
             <SelectItem key={ customer.id } value={ customer.id }>
               { customer.name }
             </SelectItem>

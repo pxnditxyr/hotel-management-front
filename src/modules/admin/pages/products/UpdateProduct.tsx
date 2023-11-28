@@ -116,7 +116,7 @@ export const UpdateProduct = () => {
           className="w-full"
         >
           {
-            categories.map( ( category ) => (
+            categories.filter( a => a.isActive ).map( ( category ) => (
             <SelectItem key={ category.id } value={ category.id }>
               { category.name }
             </SelectItem>

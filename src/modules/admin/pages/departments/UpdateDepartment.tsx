@@ -119,7 +119,7 @@ export const UpdateDeparment = () => {
           required
         >
           {
-            departmentCategories.map( ( category ) => (
+            departmentCategories.filter( a => a.isActive ).map( ( category ) => (
               <SelectItem key={ category.id } value={ category.id }>
                 { category.name }
               </SelectItem>
@@ -137,7 +137,7 @@ export const UpdateDeparment = () => {
           required
         >
           {
-            floors.map( ( floor ) => (
+            floors.filter( a => a.isActive ).map( ( floor ) => (
               <SelectItem key={ floor.id } value={ floor.id }>
                 { floor.name }
               </SelectItem>

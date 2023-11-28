@@ -86,7 +86,7 @@ export const CreateReservation = () => {
           className="w-full"
         >
           {
-            customers.map( ( customer ) => (
+            customers.filter( a => a.isActive ).map( ( customer ) => (
               <SelectItem key={ customer.id } value={ customer.id }>
                 { customer.name }
               </SelectItem>
@@ -102,7 +102,7 @@ export const CreateReservation = () => {
           className="w-full"
         >
           {
-            departments.map( ( department ) => (
+            departments.filter( b => b.isActive ).map( ( department ) => (
               <SelectItem key={ department.id } value={ department.id }>
                 { department.name }
               </SelectItem>
