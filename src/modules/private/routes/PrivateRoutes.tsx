@@ -6,6 +6,9 @@ import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, 
 import { ReservationsRoutes } from '../../../reservations'
 import { LoadingPage } from '../../../ui/pages'
 import { ApartmentsRoutes } from '../../../apartments'
+import { Reservations } from '../../../reservations/pages'
+import { Apartments } from '../../../apartments/pages'
+import { ReservationView } from '../../../reservations/pages/ReservationView'
 
 export const PrivateRoutes = () => {
 
@@ -29,9 +32,9 @@ export const PrivateRoutes = () => {
               <Route path="/user/*" element={ 
                   <div>
                     <Routes>
-                      <Route path="reservations/*" element={ <ReservationsRoutes /> } />
-                      <Route path="apartments/*" element={ <ApartmentsRoutes /> } />
-
+                      <Route path="reservations" element={ <Reservations /> } />
+                      <Route path="apartments" element={ <Apartments /> } />
+                      <Route path="reservations/:id" element={ <ReservationView /> } />
                     </Routes>
 <Navbar>
       <NavbarBrand>
