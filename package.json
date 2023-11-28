@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
+    "@react-three/fiber": "^8.15.11",
     "axios": "^1.6.2",
     "framer-motion": "^10.16.5",
     "install": "^0.13.0",
@@ -19,11 +20,13 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "sweetalert2": "^11.9.0",
+    "three": "^0.158.0",
     "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/three": "^0.158.3",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",

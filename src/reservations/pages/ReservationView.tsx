@@ -1,22 +1,25 @@
 import { Button, DropdownItem, DropdownMenu, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react"
 import { useAuthStore, useDepartmentsStore } from "../../stores"
-import { LoadingPage } from "../../ui/pages"
+import { LoadingPage, UnexpectedError } from "../../ui/pages"
 import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 
-export const Reservations = () => {
+export const ReservationView = () => {
 
+  const id = useLocation().pathname.split( '/' ).pop() as string
   const user = useAuthStore( state => state.user )
   const status = useAuthStore( state => state.status )
   const signout = useAuthStore( state => state.signout )
-  const departments = useDepartmentsStore( state => state.departments )
-  const findAllDepartments = useDepartmentsStore( state => state.findAll )
+  const department = useDepartmentsStore( state => state.department )
+  const findOneDepartment = useDepartmentsStore( state => state.findOne )
+  const isLoadingDepartment = useDepartmentsStore( state => state.isLoading )
   useEffect( () => {
-    findAllDepartments()
+    findOneDepartment( id )
   }, [] )
 
   if ( status === 'pending' ) return ( <LoadingPage /> )
-  const navigate = useNavigate()
+  if ( isLoadingDepartment ) return ( <LoadingPage /> )
+  if ( !department ) return ( <UnexpectedError /> )
 
 
   return (
@@ -76,33 +79,38 @@ export const Reservations = () => {
         <h1 className="text-4xl font-bold"> Reservations </h1>
         <div className="flex flex-wrap gap-4">
           {
-            departments.map( department => (
-              <div className="flex flex-col gap-4" key={ department.id } onClick={ () => navigate( `/reservations/${ department.id }` ) }>
-                <div key={ department.id } className="w-64 h-64 bg-gray-500 rounded-lg"
-                  style={ {
-                    background: `url(${ department.imageUrl })`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  } }
-                > </div>
-                <div className="w-64 h-64 rounded-lg">
-                  <h1 className="text-2xl font-bold"> { department.name } </h1>
-                  <p className="text-xl font-semibold"> { department.detail } </p>
-                  <p className="text-xl font-semibold"> { department.floor?.name } </p>
-                </div>
-                {
-                  status === 'authenticated' ? (
-                    <Button color="success" onClick={ () => navigate( `/reservations/${ department.id }` ) }>
-                      Reservar
-                    </Button>
-                  ) : (
-                    <Button color="success" onClick={ () => navigate( `/auth/signin` ) }>
-                      Reservar
-                    </Button>
-                  )
-                }
+            // departments.map( department => (
+            //   <div className="flex flex-col gap-4" key={ department.id } onClick={ () => navigate( `/reservations/${ department.id }` ) }>
+            //     <div key={ department.id } className="w-64 h-64 bg-gray-500 rounded-lg"
+            //       style={ {
+            //         background: `url(${ department.imageUrl })`,
+            //         backgroundSize: 'cover',
+            //         backgroundPosition: 'center'
+            //       } }
+            //     > </div>
+            //     <div className="w-64 h-64 rounded-lg">
+            //       <h1 className="text-2xl font-bold"> { department.name } </h1>
+            //       <p className="text-xl font-semibold"> { department.detail } </p>
+            //       <p className="text-xl font-semibold"> { department.floor?.name } </p>
+            //     </div>
+            //   </div>
+            // ) )
+            <div className="flex flex-col gap-4">
+              <div className="w-64 h-64 bg-gray-500 rounded-lg"
+                style={ {
+                  background: `url(${ department.imageUrl })`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                } }
+              > </div>
+              <div className="w-64 h-64 rounded-lg">
+                <h1 className="text-2xl font-bold"> { department.name } </h1>
+                <p className="text-xl font-semibold"> Detalles: { department.detail } </p>
+                <p className="text-xl font-semibold"> Piso: { department.floor?.name } </p>
+                <p className="text-xl font-semibold"> Numero de Piso: { department.floor?.number } </p>
+                <p className="text-xl font-semibold"> Categoria: { department.departmentCategory?.name } </p>
               </div>
-            ) )
+            </div>
               
           }
         </div>
