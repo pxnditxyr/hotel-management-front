@@ -2,9 +2,10 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { useAuthStore } from '../../../stores'
 import { AdminRoutes } from '../../admin'
-import { Button, DropdownItem, DropdownMenu, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 import { ReservationsRoutes } from '../../../reservations'
 import { LoadingPage } from '../../../ui/pages'
+import { ApartmentsRoutes } from '../../../apartments'
 
 export const PrivateRoutes = () => {
 
@@ -28,9 +29,8 @@ export const PrivateRoutes = () => {
               <Route path="/user/*" element={ 
                   <div>
                     <Routes>
-                      <Route path="/user/dashboard" element={ <h1> Dashboard </h1> } />
-                      <Route path="/user/profile" element={ <h1> Profile </h1> } />
-                      <Route path="/reservations/*" element={ <ReservationsRoutes /> } />
+                      <Route path="reservations/*" element={ <ReservationsRoutes /> } />
+                      <Route path="apartments/*" element={ <ApartmentsRoutes /> } />
 
                     </Routes>
 <Navbar>
@@ -39,17 +39,17 @@ export const PrivateRoutes = () => {
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="/">
+          <Link color="foreground" href="/users">
             Inicio
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/apartments" color="foreground">
+          <Link href="/users/apartments" color="foreground">
             Departamentos
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="/reservations" aria-current="page">
+          <Link href="/users/reservations" aria-current="page">
             Reservaciones
           </Link>
         </NavbarItem>
@@ -66,19 +66,38 @@ export const PrivateRoutes = () => {
                 Iniciar sesión
               </Button>
             ) : (
-                  <>
-                    <DropdownMenu aria-label="Profile Actions" variant="flat">
-                      <DropdownItem key="profile" className="h-14 gap-2">
-                        <p className="font-semibold"> Bienvenido { user?.name } </p>
-                        <p className="font-semibold"> { user?.email } </p>
-                      </DropdownItem>
-                      <DropdownItem key="configurations">Configurations</DropdownItem>
-                      <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-                      <DropdownItem key="logout" color="danger" onClick={ signout }>
-                        Cerrar sesión
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </>
+        <NavbarContent as="div" justify="end">
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color="danger"
+              name="Jason Hughes"
+              size="sm"
+              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-semibold"> Bienvenido </p>
+              <p className="font-semibold"> { user?.username } </p>
+            </DropdownItem>
+            <DropdownItem key="team_settings"> Nombre: { user?.name } </DropdownItem>
+            <DropdownItem key="settings"> Rol: Administrador </DropdownItem>
+            <DropdownItem key="analytics"> Correo: { user?.email } </DropdownItem>
+            <DropdownItem key="configurations"> Configuraciones </DropdownItem>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              onClick={ signout }
+            >
+              Cerrar Sesion
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </NavbarContent>
             )
           }
         </NavbarItem>
@@ -94,7 +113,7 @@ export const PrivateRoutes = () => {
                     </div>
                   </div>
                 } />
-              <Route path="*" element={ <Navigate to="/user/*" /> } />
+              <Route path="*" element={ <Navigate to="/user" /> } />
             </>
           )
         }
