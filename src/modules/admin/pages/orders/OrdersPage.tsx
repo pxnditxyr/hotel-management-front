@@ -4,11 +4,6 @@ import { useOrdersStore } from '../../../../stores'
 import { useNavigate } from 'react-router-dom'
 import { LoadingPage } from '../../../../ui/pages'
 import Swal from 'sweetalert2'
-// "customerId": "8ab7062c-054c-47e0-b5d5-671c1174238a",
-//   "method": "delivery",
-//   "totalProducts": 2,
-//   "totalAmount": 100,
-//   "paymentStatus": "pending"
 
 const columns = [
   { name: 'Customer', uid: 'customer' },

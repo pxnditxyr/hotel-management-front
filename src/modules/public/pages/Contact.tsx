@@ -1,6 +1,47 @@
+import { FormEvent, useEffect } from 'react'
+import { useContactUsStore } from '../../../stores'
 import { PublicLayout } from '../layout'
+import Swal from 'sweetalert2'
+import { Button, Input, Textarea } from '@nextui-org/react'
 
 export const Contact = () => {
+
+  const createContact = useContactUsStore( state => state.create )
+  const error = useContactUsStore( state => state.error )
+  const clearError = useContactUsStore( state => state.clearError )
+
+  const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
+    event.preventDefault()
+    const { contactName, email, message } = event.target as HTMLFormElement
+    createContact({
+      name: contactName.value,
+      email: email.value,
+      message: message.value
+    })
+    if ( !error ) {
+      Swal.fire( {
+        title: 'Formulario enviado',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      } )
+      contactName.value = ''
+      email.value = ''
+      message.value = ''
+    }
+  }
+
+  useEffect( () => {
+    if ( error ) {
+      Swal.fire( {
+        title: 'Error al subir su formulario',
+        text: error,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      } )
+      clearError()
+    }
+  }, [ error, clearError ] )
+
   return (
     <PublicLayout
       style={{
@@ -13,26 +54,40 @@ export const Contact = () => {
       navClassName="bg-white bg-opacity-50 text-black text-md"
       linkClassName="text-md font-bold text-center"
     >
-      <div className="flex flex-col items-center justify-center p-8 w-full min-w-96 sm:w-1/2">
-        <form className="flex flex-col items-center justify-center w-full p-8 bg-white rounded-lg shadow-lg gap-12">
-          <div className="flex flex-col w-full gap-2">
-            <label className="text-sm font-bold text-gray-700">Nombre</label>
-            <input
-              className="px-3 py-2 border border-gray-300 rounded-md w-full"
-              type="text"
+      <div className="flex flex-col items-center justify-center p-8 w-full min-w-96 sm:max-w-[600px]">
+        <form
+          onSubmit={ onSubmit }
+          className="flex flex-col items-center justify-center w-full p-8 bg-black/70 rounded-lg shadow-lg gap-12"
+        >
+          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+            <Input
+              type="text" 
+              name="contactName"
+              label="Nombre"
             />
           </div>
-          <div className="flex flex-col w-full gap-2">
-            <label className="text-sm font-bold text-gray-700"> Correo </label>
-            <input className="px-3 py-2 border border-gray-300 rounded-md" type="email" />
+          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+            <Input
+              type="email" 
+              name="email"
+              label="Email"
+            />
           </div>
-          <div className="flex flex-col w-full gap-2">
-            <label className="text-sm font-bold text-gray-700">Mensaje</label>
-            <textarea className="px-3 py-2 border border-gray-300 rounded-md" rows={5} />
+
+          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+            <Textarea
+              label="Mensaje"
+              variant="bordered"
+              labelPlacement="outside"
+              placeholder="Escribe tu mensaje"
+              name="message"
+            />
           </div>
-          <button className="px-4 py-2 text-lg font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700">
-            Enviar
-          </button>
+          <Button
+            color="success"
+            className="w-full"
+            type="submit"
+          > Crear </Button>
         </form>
       </div>
 

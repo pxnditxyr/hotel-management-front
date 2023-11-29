@@ -79,19 +79,24 @@ export const AdminNavbar = ({ onSignOutClick }: IAdminNavbarProps) => {
             </DropdownMenu>
           </Dropdown>
         </NavbarItem>
-        <NavbarItem isActive={ isActive('/admin/employees') }>
+        <NavbarItem isActive={ isActive('/admin/reservations') }>
           <Link href="/admin/reservations" color={ isActive('/admin/reservations') ? 'danger' : 'foreground' }>
             Reservaciones
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={ isActive('/admin/employees') }>
+        <NavbarItem isActive={ isActive('/admin/orders') }>
           <Link href="/admin/orders" color={ isActive('/admin/orders') ? 'danger' : 'foreground' }>
             Ordenes
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={ isActive('/admin/employees') }>
+        <NavbarItem isActive={ isActive('/admin/reports') }>
           <Link href="/admin/reports" color={ isActive('/admin/reports') ? 'danger' : 'foreground' }>
             Reportes
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive={ isActive('/admin/contact') }>
+          <Link href="/admin/contact" color={ isActive('/admin/contact') ? 'danger' : 'foreground' }>
+            Contactanos
           </Link>
         </NavbarItem>
       </NavbarContent>

@@ -15,54 +15,8 @@ import { ViewCategory } from '../pages/categories/ViewCategory'
 import { DepartmentCategoriesPage } from '../pages/department-categories/DepartmentCategoriesPage'
 import { CreateDepartmentCategory } from '../pages/department-categories/CreateDepartmentCategory'
 import { UpdateDepartmentCategory } from '../pages/department-categories/UpdateDepartmentCategory'
-
-
-// tent className="hidden sm:flex gap-4" justify="center">
-//         <NavbarItem isActive={ isActive('/admin/dashboard') }>
-//           <Link href="/admin/dashboard" color={ isActive('/admin/dashboard') ? 'secondary' : 'foreground' }>
-//             Panel de Control
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/categories') }>
-//           <Link href="/admin/categories" color={ isActive('/admin/categories') ? 'secondary' : 'foreground' }>
-//             Categorias
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/customers') }>
-//           <Link href="/admin/customers" color={ isActive('/admin/customers') ? 'secondary' : 'foreground' }>
-//             Clientes
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/products') }>
-//           <Link href="/admin/products" color={ isActive('/admin/products') ? 'secondary' : 'foreground' }>
-//             Productos
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/departments') }>
-//           <Link href="/admin/departments" color={ isActive('/admin/departments') ? 'secondary' : 'foreground' }>
-//             Departamentos
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/employees') }>
-//           <Link href="/admin/floors" color={ isActive('/admin/floors') ? 'secondary' : 'foreground' }>
-//             Pisos
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/employees') }>
-//           <Link href="/admin/reservations" color={ isActive('/admin/reservations') ? 'secondary' : 'foreground' }>
-//             Reservaciones
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/employees') }>
-//           <Link href="/admin/orders" color={ isActive('/admin/orders') ? 'secondary' : 'foreground' }>
-//             Ordenes
-//           </Link>
-//         </NavbarItem>
-//         <NavbarItem isActive={ isActive('/admin/employees') }>
-//           <Link href="/admin/reports" color={ isActive('/admin/reports') ? 'secondary' : 'foreground' }>
-//             Reportes
-//           </Link>
-//         </NavbarI
+import { ContactsPage } from '../pages/contacts/ContactsPage'
+import { ViewContact } from '../pages/contacts/ViewContact'
 
 export const AdminRoutes = () => {
 
@@ -162,6 +116,14 @@ export const AdminRoutes = () => {
             <Route path="create" element={ <CreateReport /> } />
             <Route path="edit/:id" element={ <UpdateReport /> } />
             <Route path="view/:id" element={ <ViewReport /> } />
+            <Route path="*" element={ <Navigate to="/admin/dashboard" /> } />
+          </Routes>
+        } />
+
+        <Route path="contact/*" element={
+          <Routes>
+            <Route path="/" element={ <ContactsPage /> } />
+            <Route path="view/:id" element={ <ViewContact /> } />
             <Route path="*" element={ <Navigate to="/admin/dashboard" /> } />
           </Routes>
         } />

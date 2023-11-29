@@ -149,3 +149,10 @@ export interface IDepartmentCategory {
   updatedAt: string
   departments?: IDepartment[]
 }
+
+export interface IContactUs {
+  id: string
+  name: string
+  email: string
+  message: string
+}

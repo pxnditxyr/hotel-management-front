@@ -1,13 +1,6 @@
 import { hotelApi } from '../../api'
 import { IOrder, IServiceError } from '../../interfaces'
 import { handlerServicesErrors } from '../../utils'
-// "customerId": "8ab7062c-054c-47e0-b5d5-671c1174238a",
-//   "method": "delivery",
-//   "totalProducts": 2,
-//   "totalAmount": 100,
-//   "paymentStatus": "pending"
-
-
 
 export interface ICreateOrder {
   customerId: string
