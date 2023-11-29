@@ -1,4 +1,4 @@
-import { Navbar } from '../../ui'
+import { Navbar } from '../../../ui'
 
 interface IProps {
   title: string

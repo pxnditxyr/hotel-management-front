@@ -69,7 +69,7 @@ export const AdminNavbar = ({ onSignOutClick }: IAdminNavbarProps) => {
               <DropdownItem key="departments"
                 onClick={ () => navigate( '/admin/departments' ) }
               > Departamentos </DropdownItem>
-              <DropdownItem key="departments"
+              <DropdownItem key="floors"
                 onClick={ () => navigate( '/admin/floors' ) }
               > Pisos </DropdownItem>
               <DropdownItem

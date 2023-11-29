@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
-import { AuthLayout } from '../layout/AuthLayout'
 import { FormEvent, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+
+import { AuthLayout } from '../layout/AuthLayout'
+import { useAuthStore } from '../../../stores'
 
 import Swal from 'sweetalert2'
-import { useAuthStore } from '../../stores'
 
 
 const inputClassName = "w-96 px-4 py-2 rounded-xl border-2 border-gray-300 bg-transparent focus:outline-none focus:border-sky-500 text-white font-bold z-10"

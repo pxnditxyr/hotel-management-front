@@ -10,7 +10,7 @@ export const BackButton = ( { onGoBack }: BackButtonProps ) => {
       color="primary"
       variant="shadow"
       onClick={ onGoBack }
-      className="absolute cursor-pointer top-24 left-12 text-lg"
+      className="absolute cursor-pointer top-24 left-12 text-lg z-20"
     >
       Volver Atras
     </Button>

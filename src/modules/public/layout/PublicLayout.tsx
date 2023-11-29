@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'
-import { Navbar } from '../../ui'
+import { Navbar } from '../../../ui'
 
 interface IProps {
   title: string
@@ -14,24 +14,24 @@ interface IProps {
 
 const links = [
   {
-    name: "Inicio",
-    path: "/"
+    name: 'Inicio',
+    path: '/'
   },
   {
-    name: "Reservaciones",
-    path: "/reservations"
+    name: 'Reservaciones',
+    path: '/reservations'
   },
   {
-    name: "Departamentos",
-    path: "/apartments"
+    name: 'Departamentos',
+    path: '/apartments'
   },
   {
-    name: "Acerca de nosotros",
-    path: "/about"
+    name: 'Acerca de nosotros',
+    path: '/about'
   },
   {
-    name: "Contactanos",
-    path: "/contact"
+    name: 'Contactanos',
+    path: '/contact'
   },
 ]
 

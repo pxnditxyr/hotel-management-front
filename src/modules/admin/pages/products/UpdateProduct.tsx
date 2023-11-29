@@ -63,7 +63,6 @@ export const UpdateProduct = () => {
       clearError()
     }
   }, [ error, clearError ] )
-  console.log(  )
 
   return (
     <div className="flex flex-col gap-20 w-full h-full p-20 justify-center items-center">

@@ -26,11 +26,15 @@ export const CreateDepartment = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { departmentName, number, detail, floorId, departmentCategoryId, imageUrl } = event.target as HTMLFormElement
+    const {
+      departmentName, number, detail, price,
+      floorId, departmentCategoryId, imageUrl
+    } = event.target as HTMLFormElement
     create({
       name: departmentName.value,
       number: Number( number.value ),
       detail: detail.value,
+      price: Number( price.value ),
       imageUrl: imageUrl.value,
       floorId: floorId.value,
       departmentCategoryId: departmentCategoryId.value,
@@ -84,6 +88,13 @@ export const CreateDepartment = () => {
             type="text" 
             name="number"
             label="Numero del Departamento"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="price"
+            label="Precio del Departamento"
           />
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">

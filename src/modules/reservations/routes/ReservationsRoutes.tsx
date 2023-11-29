@@ -7,7 +7,7 @@ export const ReservationsRoutes = () => {
     <div>
       <Routes>
         <Route path="/" element={ <Reservations /> } />
-        <Route path="/:id" element={ <ReservationView /> } />
+        <Route path=":id" element={ <ReservationView /> } />
       </Routes>
     </div>
   )

@@ -16,19 +16,23 @@ export const CreateFloor = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { floorName, number, detail } = event.target as HTMLFormElement
+    const { floorName, number, detail, imageUrl } = event.target as HTMLFormElement
     create({
       name: floorName.value,
       number: Number( number.value ),
-      detail: detail.value
+      detail: detail.value,
+      imageUrl: imageUrl.value,
     })
     if ( !error ) {
       Swal.fire( {
-        title: 'Piso creada con exito',
+        title: 'Piso creado con exito',
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
       floorName.value = ''
+      number.value = ''
+      detail.value = ''
+      imageUrl.value = ''
     }
   }
 
@@ -63,21 +67,28 @@ export const CreateFloor = () => {
           <Input
             type="text" 
             name="floorName"
-            label="Nombre de la Piso"
+            label="Nombre del Piso"
           />
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
           <Input
             type="text" 
             name="number"
-            label="Numero de la Piso"
+            label="Numero del Piso"
           />
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
           <Input
             type="text" 
             name="detail"
-            label="Detalle de la Piso"
+            label="Detalle del Piso"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="imageUrl"
+            label="Url de la imagen"
           />
         </div>
         <Button

@@ -27,11 +27,12 @@ export const UpdateFloor = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { floorName, number, detail } = event.target as HTMLFormElement
+    const { floorName, number, detail, imageUrl } = event.target as HTMLFormElement
     update( id, {
       name: floorName.value,
       number: Number( number.value ),
-      detail: detail.value
+      detail: detail.value,
+      imageUrl: imageUrl.value,
     } )
     if ( !error ) {
       Swal.fire( {
@@ -39,7 +40,6 @@ export const UpdateFloor = () => {
         icon: 'success',
         confirmButtonText: 'Ok'
       } )
-      floorName.value = ''
     }
   }
 
@@ -85,6 +85,14 @@ export const UpdateFloor = () => {
             name="detail"
             label="Detalle del Piso"
             defaultValue={ floor.detail }
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="imageUrl"
+            label="Url de la imagen"
+            defaultValue={ floor.imageUrl }
           />
         </div>
         <Button

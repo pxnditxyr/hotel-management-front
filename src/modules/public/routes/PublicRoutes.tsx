@@ -3,7 +3,7 @@ import { About, Contact, Home } from '../pages'
 import { ReservationsRoutes } from '../../reservations'
 import { ApartmentsRoutes } from '../../apartments'
 import { AuthRoutes } from '../../auth'
-import { UnexpectedError } from '../../ui/pages'
+import { UnexpectedError } from '../../../ui'
 
 export const PublicRoutes = () => {
 

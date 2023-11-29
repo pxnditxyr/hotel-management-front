@@ -6,6 +6,7 @@ export interface ICreateFloor {
   name: string
   number: number
   detail: string
+  imageUrl: string
 }
 
 export class FloorsService {

@@ -6,6 +6,7 @@ export interface ICreateDepartment {
   name: string
   number: number
   detail: string
+  price: number
   floorId: string
   departmentCategoryId: string
   imageUrl: string
@@ -15,7 +16,6 @@ export class DepartmentsService {
   static findAll = async () : Promise<IDepartment[] | IServiceError> => {
     try {
       const { data } = await hotelApi.get<IDepartment[]>( '/departments' )
-      console.log( data )
       return data
     } catch ( error ) {
       return { error: handlerServicesErrors( error ) }

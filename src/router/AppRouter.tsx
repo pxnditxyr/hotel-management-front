@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { PublicRoutes } from '../public'
+import { PublicRoutes } from '../modules/public'
 import { useAuthStore } from '../stores'
 import { Spinner } from '@nextui-org/react'
 import { PrivateRoutes } from '../modules/private'
@@ -13,7 +13,6 @@ export const AppRouter = () => {
     checkAuthStatus()
     return ( <Spinner label="Loading..." color="warning" /> )
   }
-  console.log( 'authStatus', authStatus )
 
   return (
     <Routes>

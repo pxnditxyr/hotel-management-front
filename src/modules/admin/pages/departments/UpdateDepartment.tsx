@@ -13,10 +13,11 @@ export const UpdateDeparment = () => {
   const update = useDepartmentsStore( state => state.update )
   const departments = useDepartmentsStore( state => state.departments )
   const department = departments.find( department => department.id === id )
+
   if ( !department ) return (
     <UnexpectedError
       code={ 404 }
-      error="No se encontro la categoria que estas buscando"
+      error="No se encontro El departamento que estas buscando"
     />
   )
   const error = useDepartmentsStore( state => state.error )
@@ -37,11 +38,15 @@ export const UpdateDeparment = () => {
 
   const onSubmit = ( event : FormEvent<HTMLFormElement> ) => {
     event.preventDefault()
-    const { departmentName, number, detail, floorId, departmentCategoryId, imageUrl } = event.target as HTMLFormElement
+    const {
+      departmentName, number, detail, floorId,
+      departmentCategoryId, imageUrl, price
+    } = event.target as HTMLFormElement
     update( id, {
       name: departmentName.value,
       number: Number( number.value ),
       detail: detail.value,
+      price: Number( price.value ),
       imageUrl: imageUrl.value,
       floorId: floorId.value,
       departmentCategoryId: departmentCategoryId.value,
@@ -59,7 +64,7 @@ export const UpdateDeparment = () => {
   useEffect( () => {
     if ( error ) {
       Swal.fire( {
-        title: 'Error al crear la categoria',
+        title: 'Error al actualizar el departamento',
         text: error,
         icon: 'error',
         confirmButtonText: 'Ok'
@@ -90,6 +95,14 @@ export const UpdateDeparment = () => {
             name="number"
             label="Numero del Departamento"
             defaultValue={ String( department.number ) }
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input
+            type="text" 
+            name="price"
+            label="Precio del Departamento"
+            defaultValue={ String( department.price ) }
           />
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">

@@ -43,7 +43,6 @@ const storeApi : StateCreator<IAuthState> = ( set ) => ({
   },
   signup: async ( { name, email, username, password, dni, lastname, phone }: IAuthSignupParams ) => {
     const response = await AuthService.signup({ name, email, username, password, dni, lastname, phone })
-    console.log( response )
     if ( 'error' in response ) {
       set({ status: 'unauthenticated', token: undefined, user: undefined, error: response.error })
       return

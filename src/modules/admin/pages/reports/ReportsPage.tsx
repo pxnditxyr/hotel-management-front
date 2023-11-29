@@ -27,7 +27,6 @@ export const ReportsPage = () => {
   }, [] )
 
   useEffect( () => {
-    console.log( error )
     if ( error ) {
       Swal.fire({
         title: 'Error',

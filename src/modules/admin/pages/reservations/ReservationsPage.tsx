@@ -32,7 +32,6 @@ export const ReservationsPage = () => {
   }, [] )
 
   useEffect( () => {
-    console.log( error )
     if ( error ) {
       Swal.fire({
         title: 'Error',

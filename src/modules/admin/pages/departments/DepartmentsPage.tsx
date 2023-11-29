@@ -29,7 +29,6 @@ export const DepartmentsPage = () => {
   }, [] )
 
   useEffect( () => {
-    console.log( error )
     if ( error ) {
       Swal.fire({
         title: 'Error',

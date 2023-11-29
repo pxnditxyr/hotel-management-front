@@ -104,6 +104,7 @@ export interface IUser {
   email: string
   username: string
   role: string
+  imageUrl?: string | null
   isActive: boolean
   createdAt: string
   updatedAt: string
@@ -118,13 +119,14 @@ export interface IDepartment {
   floorId: string
   departmentCategoryId: string
   imageUrl: string
+  price: number
   isActive: boolean
   createdAt: string
   updatedAt: string
-  reservations?: IReservation[]
-  reports?: IReport[]
-  floor?: IFloor | null
-  departmentCategory?: IDepartmentCategory | null
+  reservations: IReservation[]
+  reports: IReport[]
+  floor: IFloor
+  departmentCategory: IDepartmentCategory
 }
 
 export interface IFloor {
@@ -132,6 +134,7 @@ export interface IFloor {
   name: string
   number: number
   detail: string
+  imageUrl: string
   isActive: boolean
   createdAt: string
   updatedAt: string
